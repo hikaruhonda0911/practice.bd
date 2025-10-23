@@ -16,8 +16,6 @@ const App = () => {
   // //   todoNameref.current.value = null;
   // // };
 
-  const inputRef = useRef(null);
-
   const handleChange = (e) => {
     setInputText(e.target.value);
   };
@@ -46,7 +44,6 @@ const App = () => {
       <form className="bg-orange-200 rounded-md m-5 p-3">
         <input
           type="text"
-          ref={inputRef}
           placeholder="TODOを入力"
           className="rounded-md p-2 bg-white mr-3 text-gray-400"
           value={inputText}
