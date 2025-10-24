@@ -33,19 +33,35 @@ const App = () => {
 
   // 完了ボタン
   const handleAddDone = (id) => {
-    const taskComplete = taskList.find((task) => task.id === id);
-    if (!taskComplete) return;
+    const complete = taskList.find((task) => task.id === id);
 
-    const newTaskList = taskList.filter((task) => task.id !== id);
-    setTaskList(newTaskList);
+    const unDoneList = taskList.filter((task) => task.id !== id);
+    setTaskList(unDoneList);
 
     setDoneList([
       ...doneList,
       {
-        id: taskComplete.id,
-        todo: taskComplete.todo,
+        id: complete.id,
+        todo: complete.todo,
       },
     ]);
+  };
+
+  // 戻すボタン
+  const handleReturn = (id) => {
+    // 未完了に追加
+    const back = doneList.find((task) => task.id === id);
+    setTaskList([
+      ...taskList,
+      {
+        id: back.id,
+        todo: back.todo,
+      },
+    ]);
+
+    // 完了から削除
+    const removeDone = doneList.filter((task) => task.id !== id);
+    setDoneList(removeDone);
   };
 
   return (
@@ -106,7 +122,7 @@ const App = () => {
                   onClick={() => handleReturn(done.id)}
                   className="ml-2 border-solid rounded-xl bg-gray-200 pt-0.5 pb-0.5 pl-1 pr-1 "
                 >
-                  完了
+                  戻す
                 </button>
               </li>
             </div>
