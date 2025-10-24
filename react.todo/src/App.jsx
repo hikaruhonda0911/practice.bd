@@ -6,15 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 const App = () => {
   const [inputText, setInputText] = useState("");
   const [taskList, setTaskList] = useState([]);
-
-  // const handleAddTodo = () => {
-  //   // タスクを追加する
-  // //   const name = todoNameref.current.value;
-  // //   setTodos((prevTodos) => {
-  // //     return [...prevTodos, { id: uuidv4(), name: name, completed: false }];
-  // //   });
-  // //   todoNameref.current.value = null;
-  // // };
+  const [doneList, setDoneList] = useState([]);
 
   const handleChange = (e) => {
     setInputText(e.target.value);
@@ -39,6 +31,23 @@ const App = () => {
     setTaskList(Remove);
   };
 
+  // 完了ボタン
+  const handleAddDone = (id) => {
+    const taskComplete = taskList.find((task) => task.id === id);
+    if (!taskComplete) return;
+
+    const newTaskList = taskList.filter((task) => task.id !== id);
+    setTaskList(newTaskList);
+
+    setDoneList([
+      ...doneList,
+      {
+        id: taskComplete.id,
+        todo: taskComplete.todo,
+      },
+    ]);
+  };
+
   return (
     <>
       <form className="bg-orange-200 rounded-md m-5 p-3">
@@ -60,21 +69,20 @@ const App = () => {
         <span className="text-gray-500 font-bold text-l flex justify-center">
           未完了のTODO
         </span>
-        {/* <TodoList todos={todos} /> */}
-        {/* todoリストを作成 */}
+
         <div>
-          {taskList.map((item) => (
-            <div key={item.id}>
+          {taskList.map((done) => (
+            <div key={done.id}>
               <li className="ml-7">
-                {item.todo}
+                {done.todo}
                 <button
-                  onClick={() => handleAddDone(item.id)}
+                  onClick={() => handleAddDone(done.id)}
                   className="ml-2 border-solid rounded-xl bg-gray-200 pt-0.5 pb-0.5 pl-1 pr-1 "
                 >
                   完了
                 </button>
                 <button
-                  onClick={() => handleDelete(item.id)}
+                  onClick={() => handleDelete(done.id)}
                   className="ml-2 border-solid rounded-xl bg-gray-200 pt-0.5 pb-0.5 pl-1 pr-1 "
                 >
                   削除
@@ -86,8 +94,23 @@ const App = () => {
       </div>
 
       <div className="border-2 border-solid rounded-md border-orange-300 m-5 p-3 bg-orange-100">
-        <div className="text-gray-500 font-bold text-l flex justify-center">
+        <span className="text-gray-500 font-bold text-l flex justify-center">
           完了のTODO
+        </span>
+        <div>
+          {doneList.map((done) => (
+            <div key={done.id}>
+              <li className="ml-7">
+                {done.todo}
+                <button
+                  onClick={() => handleReturn(done.id)}
+                  className="ml-2 border-solid rounded-xl bg-gray-200 pt-0.5 pb-0.5 pl-1 pr-1 "
+                >
+                  完了
+                </button>
+              </li>
+            </div>
+          ))}
         </div>
       </div>
     </>
