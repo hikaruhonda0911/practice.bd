@@ -33,8 +33,6 @@ const App = () => {
 
   // 完了ボタン
   const handleAddDone = (id) => {
-    const complete = taskList.find((task) => task.id === id);
-
     const unDoneList = taskList.filter((task) => task.id !== id);
     setTaskList(unDoneList);
 
